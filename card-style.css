@@ -1,0 +1,105 @@
+body {
+    font-family: sans-serif;
+    background-color: #f4f7f6;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh; /* Centers the component vertically on screen */
+}
+
+/* The Container to hold all cards side-by-side */
+.pricing-container {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap; /* Wraps to next line on small screens */
+    justify-content: center;
+    padding: 20px;
+}
+
+/* Individual Card Styling */
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    width: 300px;
+    text-align: center;
+    position: relative;
+    transition: transform 0.3s ease;
+}
+
+/* Hover Effect */
+.card:hover {
+    transform: translateY(-10px); /* Moves up slightly when hovered */
+}
+
+.price {
+    font-size: 3rem;
+    font-weight: bold;
+    margin: 20px 0;
+    color: #333;
+}
+
+.price span {
+    font-size: 1rem;
+    color: #777;
+    font-weight: normal;
+}
+
+ul.features {
+    list-style: none; /* Removes default bullet points */
+    padding: 0;
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+ul.features li {
+    margin-bottom: 10px;
+    color: #555;
+}
+
+ul.features li.disabled {
+    color: #ccc; /* Grays out features not included */
+}
+
+button {
+    background: #333;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 1rem;
+    width: 100%;
+}
+
+button:hover {
+    background: #555;
+}
+
+/* --- THE "POPULAR" CARD STYLING --- */
+.card.popular {
+    border: 2px solid #007bff; /* Blue border */
+    transform: scale(1.05); /* Make it slightly bigger by default */
+}
+
+.card.popular .tag {
+    background: #007bff;
+    color: white;
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: bold;
+}
+
+.card.popular button {
+    background: #007bff;
+}
+
+.card.popular button:hover {
+    background: #0056b3;
+}
