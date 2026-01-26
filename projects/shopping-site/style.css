@@ -1,0 +1,91 @@
+/* --- Cart Sidebar Styling --- */
+.cart-sidebar {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 350px; /* Width of the drawer */
+    height: 100%;
+    background: white;
+    box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+    z-index: 1000; /* Stays on top of everything */
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    
+    /* Animation Magic */
+    transform: translateX(100%); /* Hides it off-screen by default */
+    transition: transform 0.3s ease-in-out;
+}
+
+/* The class we add with JS to show it */
+.cart-sidebar.show {
+    transform: translateX(0);
+}
+
+/* --- The Dark Overlay --- */
+.cart-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Semi-transparent black */
+    z-index: 900; /* Just behind the sidebar */
+    display: none; /* Hidden by default */
+}
+
+.cart-overlay.show {
+    display: block;
+}
+
+/* --- Cart Content Styling --- */
+.cart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+}
+
+.close-cart {
+    font-size: 2rem;
+    cursor: pointer;
+}
+
+.cart-items {
+    flex: 1; /* Takes up all available middle space */
+    overflow-y: auto; /* Scrollable if too many items */
+    margin-top: 20px;
+}
+
+.cart-item {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 15px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    align-items: center;
+}
+
+.cart-item img {
+    width: 60px;
+    height: 60px;
+    object-fit: cover;
+    border-radius: 4px;
+}
+
+.cart-footer {
+    border-top: 1px solid #eee;
+    padding-top: 20px;
+}
+
+.checkout-btn {
+    width: 100%;
+    padding: 15px;
+    background: #27ae60;
+    color: white;
+    border: none;
+    font-size: 1.1rem;
+    cursor: pointer;
+    margin-top: 10px;
+}
