@@ -9,13 +9,31 @@
 
     <header>
         <h1>TechStore</h1>
-        <div class="cart-icon">
+        <div class="cart-icon" onclick="toggleCart()">
             🛒 <span id="cart-count">0</span>
         </div>
     </header>
 
     <div id="product-container" class="product-grid">
         </div>
+
+    <div class="cart-overlay" id="cart-overlay" onclick="toggleCart()"></div>
+
+    <div class="cart-sidebar" id="cart-sidebar">
+        <div class="cart-header">
+            <h2>Your Cart</h2>
+            <span class="close-cart" onclick="toggleCart()">×</span>
+        </div>
+    
+        <div class="cart-items" id="cart-items">
+            <p class="empty-msg">Your cart is empty.</p>
+        </div>
+
+        <div class="cart-footer">
+            <h3>Total: $<span id="cart-total">0.00</span></h3>
+            <button class="checkout-btn">Checkout</button>
+        </div>
+    </div>
 
     <script src="script.js"></script>
 </body>
