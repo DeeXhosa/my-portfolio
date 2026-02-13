@@ -1,0 +1,868 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Jane Doe | Frontend Developer</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        /* ---------- CSS Reset & Variables ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --bg-color: #0a0f1c;
+            --surface-color: #1a1f2f;
+            --primary-color: #6c5ce7;
+            --primary-hover: #8075e8;
+            --text-primary: #f0f4fa;
+            --text-secondary: #a0a8c0;
+            --accent-glow: rgba(108, 92, 231, 0.4);
+            --card-bg: #23283b;
+            --border-color: #2d3349;
+            --success-color: #00b894;
+            --font-family: 'Inter', sans-serif;
+            --transition: all 0.3s ease;
+        }
+
+        body {
+            font-family: var(--font-family);
+            background-color: var(--bg-color);
+            color: var(--text-primary);
+            line-height: 1.6;
+            scroll-behavior: smooth;
+            overflow-x: hidden;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        /* ---------- Utility Classes ---------- */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section {
+            padding: 6rem 0;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            text-align: center;
+            background: linear-gradient(135deg, #fff 0%, #a0a8c0 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            margin-bottom: 3rem;
+            font-size: 1.1rem;
+        }
+
+        /* ---------- Buttons ---------- */
+        .btn {
+            display: inline-block;
+            padding: 0.8rem 2rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition);
+            cursor: pointer;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary-color);
+            color: white;
+            box-shadow: 0 8px 20px var(--accent-glow);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--primary-hover);
+            transform: translateY(-3px);
+            box-shadow: 0 12px 28px var(--accent-glow);
+        }
+
+        .btn-outline {
+            border: 2px solid var(--primary-color);
+            color: var(--text-primary);
+            background: transparent;
+        }
+
+        .btn-outline:hover {
+            background-color: var(--primary-color);
+            color: white;
+            transform: translateY(-3px);
+        }
+
+        /* ---------- Header / Navbar ---------- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(10, 15, 28, 0.85);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--primary-color), #a29bfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-link {
+            font-weight: 500;
+            transition: var(--transition);
+            position: relative;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0%;
+            height: 2px;
+            background-color: var(--primary-color);
+            transition: var(--transition);
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+            width: 100%;
+        }
+
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            font-size: 1.5rem;
+        }
+
+        /* ---------- Hero Section ---------- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, var(--accent-glow) 0%, transparent 70%);
+            top: -100px;
+            right: -100px;
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            width: 400px;
+            height: 400px;
+            background: radial-gradient(circle, rgba(0, 184, 148, 0.2) 0%, transparent 70%);
+            bottom: -150px;
+            left: -150px;
+            border-radius: 50%;
+            z-index: -1;
+        }
+
+        .hero-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+
+        .hero-text h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        .hero-text h1 span {
+            background: linear-gradient(135deg, var(--primary-color), #a29bfe);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: inline-block;
+        }
+
+        .typed-text {
+            font-size: 1.8rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            min-height: 4rem;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 1rem;
+            margin-top: 2rem;
+        }
+
+        .hero-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .hero-image img {
+            max-width: 100%;
+            width: 350px;
+            border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            animation: float 6s ease-in-out infinite;
+            border: 3px solid var(--primary-color);
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+            100% { transform: translateY(0px); }
+        }
+
+        /* ---------- Skills Section ---------- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .skill-card {
+            background-color: var(--card-bg);
+            padding: 2rem 1rem;
+            border-radius: 16px;
+            text-align: center;
+            transition: var(--transition);
+            border: 1px solid var(--border-color);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--primary-color);
+            box-shadow: 0 12px 24px var(--accent-glow);
+        }
+
+        .skill-card i {
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 0.8rem;
+        }
+
+        .skill-card h3 {
+            font-size: 1.1rem;
+            font-weight: 500;
+        }
+
+        /* ---------- Projects Section ---------- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            margin-top: 2rem;
+        }
+
+        .project-card {
+            background-color: var(--card-bg);
+            border-radius: 24px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: var(--transition);
+        }
+
+        .project-card:hover {
+            transform: translateY(-10px) scale(1.02);
+            border-color: var(--primary-color);
+            box-shadow: 0 20px 30px var(--accent-glow);
+        }
+
+        .project-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            background-color: var(--surface-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 3rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .project-content {
+            padding: 1.5rem;
+        }
+
+        .project-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .project-desc {
+            color: var(--text-secondary);
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .project-tech {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .tech-tag {
+            background-color: var(--surface-color);
+            padding: 0.25rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            border: 1px solid var(--border-color);
+            color: var(--text-secondary);
+        }
+
+        .project-links {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .project-links a {
+            color: var(--text-primary);
+            font-size: 1.2rem;
+            transition: var(--transition);
+        }
+
+        .project-links a:hover {
+            color: var(--primary-color);
+        }
+
+        /* ---------- Contact Section ---------- */
+        .contact-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: start;
+        }
+
+        .contact-info h3 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .contact-info p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+        }
+
+        .contact-details {
+            list-style: none;
+        }
+
+        .contact-details li {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-details i {
+            font-size: 1.5rem;
+            color: var(--primary-color);
+            width: 40px;
+        }
+
+        .social-links {
+            display: flex;
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .social-links a {
+            font-size: 1.8rem;
+            color: var(--text-secondary);
+            transition: var(--transition);
+        }
+
+        .social-links a:hover {
+            color: var(--primary-color);
+            transform: translateY(-3px);
+        }
+
+        .contact-form {
+            background-color: var(--card-bg);
+            padding: 2rem;
+            border-radius: 24px;
+            border: 1px solid var(--border-color);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 1rem;
+            background-color: var(--surface-color);
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-family: inherit;
+            color: var(--text-primary);
+            font-size: 1rem;
+            transition: var(--transition);
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        /* ---------- Footer ---------- */
+        footer {
+            background-color: var(--surface-color);
+            border-top: 1px solid var(--border-color);
+            padding: 2rem 0;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        /* ---------- Responsive Design ---------- */
+        @media (max-width: 768px) {
+            .navbar {
+                padding: 1rem;
+            }
+
+            .nav-menu {
+                position: fixed;
+                left: -100%;
+                top: 70px;
+                flex-direction: column;
+                background-color: var(--surface-color);
+                width: 100%;
+                text-align: center;
+                padding: 2rem 0;
+                gap: 2rem;
+                transition: 0.3s;
+                border-bottom: 1px solid var(--border-color);
+                backdrop-filter: blur(10px);
+            }
+
+            .nav-menu.active {
+                left: 0;
+            }
+
+            .hamburger {
+                display: block;
+            }
+
+            .hero-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+
+            .hero-btns {
+                justify-content: center;
+            }
+
+            .hero-image {
+                order: -1;
+            }
+
+            .hero-image img {
+                width: 250px;
+            }
+
+            .hero-text h1 {
+                font-size: 2.5rem;
+            }
+
+            .typed-text {
+                font-size: 1.4rem;
+            }
+
+            .section {
+                padding: 4rem 0;
+            }
+
+            .contact-content {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* ---------- Animations ---------- */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.8s ease, transform 0.8s ease;
+        }
+
+        .fade-up.appear {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav class="navbar">
+            <a href="#" class="logo">JD.</a>
+            <ul class="nav-menu">
+                <li><a href="#home" class="nav-link active">Home</a></li>
+                <li><a href="#about" class="nav-link">About</a></li>
+                <li><a href="#skills" class="nav-link">Skills</a></li>
+                <li><a href="#projects" class="nav-link">Projects</a></li>
+                <li><a href="#contact" class="nav-link">Contact</a></li>
+            </ul>
+            <div class="hamburger">
+                <i class="fas fa-bars"></i>
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="hero">
+            <div class="container hero-content">
+                <div class="hero-text fade-up">
+                    <h1>Hi, I'm <span>Jane Doe</span></h1>
+                    <div class="typed-text"></div>
+                    <p>I craft responsive and performant web experiences with modern frontend technologies.</p>
+                    <div class="hero-btns">
+                        <a href="#projects" class="btn btn-primary">View Work</a>
+                        <a href="#contact" class="btn btn-outline">Contact Me</a>
+                    </div>
+                </div>
+                <div class="hero-image fade-up">
+                    <!-- Replace with your own image -->
+                    <img src="https://via.placeholder.com/400x400/1a1f2f/6c5ce7?text=Your+Photo" alt="Jane Doe">
+                </div>
+            </div>
+        </section>
+
+        <!-- About Section -->
+        <section id="about" class="section">
+            <div class="container">
+                <h2 class="section-title fade-up">About Me</h2>
+                <p class="section-subtitle fade-up">Get to know me</p>
+                <div class="about-content fade-up" style="max-width: 800px; margin: 0 auto; text-align: center;">
+                    <p>I'm a passionate frontend developer with 5+ years of experience building beautiful, responsive, and user-friendly websites. I love turning complex problems into simple, elegant solutions. When I'm not coding, you'll find me exploring new tech, reading, or hiking.</p>
+                    <p style="margin-top: 1.5rem;">My core stack includes React, Vue, TypeScript, and Tailwind CSS. I'm also experienced with Node.js and GraphQL to bridge the gap between frontend and backend.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Skills Section -->
+        <section id="skills" class="section">
+            <div class="container">
+                <h2 class="section-title fade-up">My Skills</h2>
+                <p class="section-subtitle fade-up">Technologies I work with</p>
+                <div class="skills-grid">
+                    <div class="skill-card fade-up">
+                        <i class="fab fa-html5"></i>
+                        <h3>HTML5</h3>
+                    </div>
+                    <div class="skill-card fade-up">
+                        <i class="fab fa-css3-alt"></i>
+                        <h3>CSS3</h3>
+                    </div>
+                    <div class="skill-card fade-up">
+                        <i class="fab fa-js"></i>
+                        <h3>JavaScript</h3>
+                    </div>
+                    <div class="skill-card fade-up">
+                        <i class="fab fa-react"></i>
+                        <h3>React</h3>
+                    </div>
+                    <div class="skill-card fade-up">
+                        <i class="fab fa-vuejs"></i>
+                        <h3>Vue.js</h3>
+                    </div>
+                    <div class="skill-card fade-up">
+                        <i class="fab fa-angular"></i>
+                        <h3>Angular</h3>
+                    </div>
+                    <div class="skill-card fade-up">
+                        <i class="fab fa-sass"></i>
+                        <h3>Sass</h3>
+                    </div>
+                    <div class="skill-card fade-up">
+                        <i class="fab fa-tailwindcss"></i>
+                        <h3>Tailwind</h3>
+                    </div>
+                    <div class="skill-card fade-up">
+                        <i class="fab fa-git-alt"></i>
+                        <h3>Git</h3>
+                    </div>
+                    <div class="skill-card fade-up">
+                        <i class="fab fa-figma"></i>
+                        <h3>Figma</h3>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Projects Section -->
+        <section id="projects" class="section">
+            <div class="container">
+                <h2 class="section-title fade-up">Featured Projects</h2>
+                <p class="section-subtitle fade-up">Some of my recent work</p>
+                <div class="projects-grid">
+                    <!-- Project Card 1 -->
+                    <div class="project-card fade-up">
+                        <div class="project-img">
+                            <i class="fas fa-laptop-code"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">E-Commerce Dashboard</h3>
+                            <p class="project-desc">A full-featured admin dashboard for managing products, orders, and customers with real-time analytics.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">React</span>
+                                <span class="tech-tag">Redux</span>
+                                <span class="tech-tag">Chart.js</span>
+                                <span class="tech-tag">Tailwind</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="#" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Project Card 2 -->
+                    <div class="project-card fade-up">
+                        <div class="project-img">
+                            <i class="fas fa-mobile-alt"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Travel App UI</h3>
+                            <p class="project-desc">A mobile-first UI design for a travel booking app with smooth animations and interactive elements.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">Vue 3</span>
+                                <span class="tech-tag">Vite</span>
+                                <span class="tech-tag">Pinia</span>
+                                <span class="tech-tag">SCSS</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="#" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Project Card 3 -->
+                    <div class="project-card fade-up">
+                        <div class="project-img">
+                            <i class="fas fa-cloud-sun"></i>
+                        </div>
+                        <div class="project-content">
+                            <h3 class="project-title">Weather Forecast</h3>
+                            <p class="project-desc">A minimalist weather app that displays current conditions and 5-day forecast using OpenWeather API.</p>
+                            <div class="project-tech">
+                                <span class="tech-tag">React</span>
+                                <span class="tech-tag">Axios</span>
+                                <span class="tech-tag">CSS Modules</span>
+                            </div>
+                            <div class="project-links">
+                                <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                                <a href="#" target="_blank"><i class="fas fa-external-link-alt"></i></a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Contact Section -->
+        <section id="contact" class="section">
+            <div class="container">
+                <h2 class="section-title fade-up">Get In Touch</h2>
+                <p class="section-subtitle fade-up">I'd love to hear from you</p>
+                <div class="contact-content">
+                    <div class="contact-info fade-up">
+                        <h3>Let's talk about your project</h3>
+                        <p>Whether you have a question or just want to say hi, I'll get back to you as soon as possible.</p>
+                        <ul class="contact-details">
+                            <li><i class="fas fa-envelope"></i> <span>jane.doe@example.com</span></li>
+                            <li><i class="fas fa-phone-alt"></i> <span>+1 (123) 456-7890</span></li>
+                            <li><i class="fas fa-map-marker-alt"></i> <span>San Francisco, CA</span></li>
+                        </ul>
+                        <div class="social-links">
+                            <a href="#" target="_blank"><i class="fab fa-github"></i></a>
+                            <a href="#" target="_blank"><i class="fab fa-linkedin"></i></a>
+                            <a href="#" target="_blank"><i class="fab fa-twitter"></i></a>
+                            <a href="#" target="_blank"><i class="fab fa-codepen"></i></a>
+                        </div>
+                    </div>
+                    <form class="contact-form fade-up" id="contactForm">
+                        <div class="form-group">
+                            <input type="text" name="name" placeholder="Your Name" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="email" name="email" placeholder="Your Email" required>
+                        </div>
+                        <div class="form-group">
+                            <input type="text" name="subject" placeholder="Subject">
+                        </div>
+                        <div class="form-group">
+                            <textarea name="message" placeholder="Your Message" required></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">Send Message</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 Jane Doe. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script>
+        // ---------- JavaScript for interactivity ----------
+
+        // Mobile menu toggle
+        const hamburger = document.querySelector('.hamburger');
+        const navMenu = document.querySelector('.nav-menu');
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+        });
+
+        // Close menu when clicking a link
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+            });
+        });
+
+        // Active link highlighting on scroll
+        const sections = document.querySelectorAll('section');
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            let current = '';
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.clientHeight;
+                if (pageYOffset >= sectionTop && pageYOffset < sectionTop + sectionHeight) {
+                    current = section.getAttribute('id');
+                }
+            });
+
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href') === `#${current}`) {
+                    link.classList.add('active');
+                }
+            });
+        });
+
+        // Typing effect for hero
+        const typedTextSpan = document.querySelector('.typed-text');
+        const words = ['Frontend Developer', 'UI Enthusiast', 'React Specialist', 'Creative Coder'];
+        let wordIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typeSpeed = 100;
+        const deleteSpeed = 50;
+        const pauseTime = 1500;
+
+        function typeEffect() {
+            const currentWord = words[wordIndex];
+            if (isDeleting) {
+                typedTextSpan.textContent = currentWord.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typedTextSpan.textContent = currentWord.substring(0, charIndex + 1);
+                charIndex++;
+            }
+
+            if (!isDeleting && charIndex === currentWord.length) {
+                isDeleting = true;
+                setTimeout(typeEffect, pauseTime);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                wordIndex = (wordIndex + 1) % words.length;
+                setTimeout(typeEffect, 200);
+            } else {
+                setTimeout(typeEffect, isDeleting ? deleteSpeed : typeSpeed);
+            }
+        }
+
+        // Start typing effect after page load
+        window.addEventListener('load', () => {
+            setTimeout(typeEffect, 500);
+        });
+
+        // Scroll reveal animation (fade-up)
+        const fadeElements = document.querySelectorAll('.fade-up');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('appear');
+                }
+            });
+        }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+        fadeElements.forEach(el => observer.observe(el));
+
+        // Contact form handling (simple prevent default + alert)
+        const contactForm = document.getElementById('contactForm');
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            alert('Thank you for your message! (This is a demo form, no actual message sent.)');
+            contactForm.reset();
+        });
+    </script>
+</body>
+</html>
