@@ -1,0 +1,635 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>KaosKanvas | Custom Websites That Convert</title>
+  <!-- Google Fonts & Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background-color: #0b0c10;
+      color: #eef2ff;
+      line-height: 1.5;
+      overflow-x: hidden;
+    }
+
+    /* animated gradient background */
+    .gradient-bg {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -2;
+      background: radial-gradient(circle at 20% 30%, #0f172a, #020617);
+    }
+
+    .gradient-bg::before {
+      content: '';
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      top: -50%;
+      left: -50%;
+      background: conic-gradient(from 0deg, #3b82f6, #a855f7, #ec4899, #3b82f6);
+      animation: rotate 20s linear infinite;
+      opacity: 0.15;
+      z-index: -1;
+    }
+
+    @keyframes rotate {
+      100% { transform: rotate(360deg); }
+    }
+
+    /* custom cursor (optional but cool) */
+    .cursor {
+      width: 12px;
+      height: 12px;
+      background: #8b5cf6;
+      border-radius: 50%;
+      position: fixed;
+      pointer-events: none;
+      z-index: 999;
+      transition: transform 0.1s;
+      mix-blend-mode: difference;
+    }
+
+    /* container */
+    .container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    /* navbar */
+    nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1.5rem 2rem;
+      backdrop-filter: blur(12px);
+      background: rgba(15, 23, 42, 0.7);
+      border-bottom: 1px solid rgba(139, 92, 246, 0.3);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #a78bfa, #f472b6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -0.02em;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2.5rem;
+      list-style: none;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #cbd5e6;
+      font-weight: 500;
+      transition: 0.2s;
+    }
+
+    .nav-links a:hover {
+      color: #c084fc;
+    }
+
+    .btn-nav {
+      background: linear-gradient(95deg, #8b5cf6, #ec4899);
+      padding: 0.6rem 1.5rem;
+      border-radius: 40px;
+      color: white !important;
+      font-weight: 600;
+    }
+
+    /* buttons */
+    .btn-primary {
+      background: linear-gradient(95deg, #8b5cf6, #ec4899);
+      border: none;
+      padding: 0.9rem 2rem;
+      border-radius: 40px;
+      color: white;
+      font-weight: 600;
+      font-size: 1rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 8px 20px rgba(139, 92, 246, 0.4);
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 15px 30px rgba(139, 92, 246, 0.6);
+    }
+
+    .btn-outline {
+      background: transparent;
+      border: 1.5px solid #8b5cf6;
+      padding: 0.9rem 2rem;
+      border-radius: 40px;
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+
+    .btn-outline:hover {
+      background: rgba(139, 92, 246, 0.2);
+      transform: scale(1.02);
+    }
+
+    /* hero section */
+    .hero {
+      min-height: 90vh;
+      display: flex;
+      align-items: center;
+      padding: 4rem 0;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: center;
+    }
+
+    .hero h1 {
+      font-size: 3.8rem;
+      font-weight: 700;
+      line-height: 1.2;
+      background: linear-gradient(to right, #ffffff, #c084fc);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .hero p {
+      font-size: 1.2rem;
+      color: #94a3b8;
+      margin: 1.5rem 0;
+    }
+
+    .stats {
+      display: flex;
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .stat-item h3 {
+      font-size: 2rem;
+      color: #c084fc;
+    }
+
+    /* services grid */
+    .section {
+      padding: 5rem 0;
+    }
+
+    .section-title {
+      font-size: 2.5rem;
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .section-sub {
+      text-align: center;
+      color: #94a3b8;
+      margin-bottom: 3rem;
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+    }
+
+    .service-card {
+      background: rgba(30, 41, 59, 0.6);
+      backdrop-filter: blur(8px);
+      border-radius: 28px;
+      padding: 2rem;
+      border: 1px solid rgba(139, 92, 246, 0.3);
+      transition: all 0.3s;
+    }
+
+    .service-card:hover {
+      transform: translateY(-10px);
+      border-color: #8b5cf6;
+      box-shadow: 0 20px 30px -10px rgba(139, 92, 246, 0.3);
+    }
+
+    .service-icon {
+      font-size: 2.5rem;
+      color: #c084fc;
+      margin-bottom: 1rem;
+    }
+
+    /* portfolio carousel (simple) */
+    .carousel-container {
+      position: relative;
+      max-width: 900px;
+      margin: 0 auto;
+      overflow: hidden;
+      border-radius: 32px;
+    }
+
+    .carousel-track {
+      display: flex;
+      transition: transform 0.5s ease;
+    }
+
+    .carousel-slide {
+      min-width: 100%;
+      background: #1e293b;
+      padding: 2rem;
+      text-align: center;
+      border-radius: 28px;
+    }
+
+    .carousel-slide i {
+      font-size: 5rem;
+      color: #8b5cf6;
+    }
+
+    .carousel-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background: #8b5cf6;
+      border: none;
+      color: white;
+      padding: 0.8rem 1.2rem;
+      border-radius: 50%;
+      cursor: pointer;
+      font-size: 1.2rem;
+    }
+
+    .prev { left: 10px; }
+    .next { right: 10px; }
+
+    /* pricing cards */
+    .pricing-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+    }
+
+    .pricing-card {
+      background: rgba(15, 23, 42, 0.8);
+      backdrop-filter: blur(8px);
+      border-radius: 32px;
+      padding: 2rem;
+      width: 300px;
+      text-align: center;
+      border: 1px solid #334155;
+      transition: 0.2s;
+    }
+
+    .pricing-card.featured {
+      border: 2px solid #8b5cf6;
+      transform: scale(1.02);
+    }
+
+    .price {
+      font-size: 2.8rem;
+      font-weight: 700;
+      color: #c084fc;
+    }
+
+    /* contact form */
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    input, textarea {
+      width: 100%;
+      padding: 1rem;
+      background: #1e293b;
+      border: 1px solid #334155;
+      border-radius: 24px;
+      color: white;
+      font-family: inherit;
+    }
+
+    input:focus, textarea:focus {
+      outline: none;
+      border-color: #8b5cf6;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+    }
+
+    /* floating quote button */
+    .floating-quote {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: linear-gradient(95deg, #ec4899, #8b5cf6);
+      padding: 1rem 1.6rem;
+      border-radius: 60px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 200;
+      box-shadow: 0 8px 20px black;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* modal */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(5px);
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .modal-content {
+      background: #0f172a;
+      padding: 2rem;
+      border-radius: 32px;
+      width: 90%;
+      max-width: 500px;
+      border: 1px solid #8b5cf6;
+    }
+
+    .close-modal {
+      float: right;
+      font-size: 1.8rem;
+      cursor: pointer;
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid #1e293b;
+      margin-top: 2rem;
+    }
+
+    @media (max-width: 800px) {
+      .hero-grid, .contact-grid { grid-template-columns: 1fr; text-align: center; }
+      .nav-links { display: none; }
+      .hero h1 { font-size: 2.5rem; }
+      .stats { justify-content: center; }
+    }
+
+    /* animations */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(30px);
+      transition: 0.6s;
+    }
+    .fade-up.appear {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  </style>
+</head>
+<body>
+<div class="gradient-bg"></div>
+<div class="cursor" id="cursor"></div>
+
+<nav>
+  <div class="logo">✦ KaosKanvas</div>
+  <ul class="nav-links">
+    <li><a href="#home">Home</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#portfolio">Work</a></li>
+    <li><a href="#pricing">Pricing</a></li>
+    <li><a href="#contact">Contact</a></li>
+    <li><a href="#" class="btn-nav" id="quoteNavBtn">Get Quote</a></li>
+  </ul>
+</nav>
+
+<main>
+  <!-- Hero -->
+  <section id="home" class="hero">
+    <div class="container hero-grid">
+      <div class="fade-up">
+        <h1>Websites that don't just look good — they perform.</h1>
+        <p>Custom-coded, lightning-fast, and tailored to convert visitors into clients. Let’s build your digital presence.</p>
+        <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+          <button class="btn-primary" id="heroQuoteBtn">Start a Project</button>
+          <button class="btn-outline">See Portfolio</button>
+        </div>
+        <div class="stats">
+          <div class="stat-item"><h3 id="projectsCount">0+</h3><p>Projects delivered</p></div>
+          <div class="stat-item"><h3 id="clientsCount">0+</h3><p>Happy clients</p></div>
+        </div>
+      </div>
+      <div class="fade-up">
+        <i class="fas fa-code" style="font-size: 12rem; color: #8b5cf6; opacity: 0.7;"></i>
+      </div>
+    </div>
+  </section>
+
+  <!-- Services -->
+  <section id="services" class="section">
+    <div class="container">
+      <h2 class="section-title fade-up">What I build for you</h2>
+      <p class="section-sub fade-up">Tailored frontend solutions that scale</p>
+      <div class="services-grid">
+        <div class="service-card fade-up"><i class="fas fa-globe service-icon"></i><h3>Custom Landing Pages</h3><p>High-conversion, pixel-perfect landing pages designed to capture leads.</p></div>
+        <div class="service-card fade-up"><i class="fas fa-cart-shopping service-icon"></i><h3>E‑commerce UI</h3><p>Headless or full frontend for Shopify, Woo, or custom stores.</p></div>
+        <div class="service-card fade-up"><i class="fas fa-dashboard service-icon"></i><h3>Dashboards & Apps</h3><p>Interactive admin panels, real-time data visualisation.</p></div>
+        <div class="service-card fade-up"><i class="fas fa-mobile-alt service-icon"></i><h3>Fully Responsive</h3><p>Flawless experience on any device, any screen size.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Portfolio Carousel -->
+  <section id="portfolio" class="section">
+    <div class="container">
+      <h2 class="section-title fade-up">Recent masterpieces</h2>
+      <p class="section-sub fade-up">Each project is handcrafted with love and code</p>
+      <div class="carousel-container fade-up">
+        <div class="carousel-track" id="carouselTrack">
+          <div class="carousel-slide"><i class="fas fa-chart-line"></i><h3>Fintech Dashboard</h3><p>Real-time crypto analytics</p></div>
+          <div class="carousel-slide"><i class="fas fa-tshirt"></i><h3>Streetwear Store</h3><p>Interactive 3D product viewer</p></div>
+          <div class="carousel-slide"><i class="fas fa-coffee"></i><h3>Coffee Brand</h3><p>Animated landing + loyalty system</p></div>
+        </div>
+        <button class="carousel-btn prev" id="prevBtn">❮</button>
+        <button class="carousel-btn next" id="nextBtn">❯</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Pricing -->
+  <section id="pricing" class="section">
+    <div class="container">
+      <h2 class="section-title fade-up">Simple, transparent pricing</h2>
+      <p class="section-sub fade-up">No hidden fees — just value</p>
+      <div class="pricing-grid">
+        <div class="pricing-card fade-up"><h3>Essential</h3><div class="price">$1,200</div><p>5 pages, responsive, contact form, basic SEO</p><button class="btn-outline" style="margin-top: 1rem;">Choose</button></div>
+        <div class="pricing-card featured fade-up"><h3>Pro Website</h3><div class="price">$2,800</div><p>Up to 12 pages, CMS integration, animations, performance optimization</p><button class="btn-primary" style="margin-top: 1rem;">Most popular</button></div>
+        <div class="pricing-card fade-up"><h3>Custom + E‑com</h3><div class="price">$4,500+</div><p>Fully custom design, backend integration, product filters, checkout UI</p><button class="btn-outline">Let's talk</button></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact + Testimonials -->
+  <section id="contact" class="section">
+    <div class="container contact-grid">
+      <div class="fade-up">
+        <h2>Let’s create something <span style="color:#c084fc">extraordinary</span></h2>
+        <p>Fill the form or grab a quick quote via the floating button. I’ll get back within 24h.</p>
+        <div style="margin-top: 2rem;"><i class="fas fa-star" style="color: #fbbf24;"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i> <span>4.9/5 from 50+ reviews</span></div>
+      </div>
+      <div class="fade-up">
+        <form id="contactForm">
+          <div class="form-group"><input type="text" placeholder="Your name" required></div>
+          <div class="form-group"><input type="email" placeholder="Email address" required></div>
+          <div class="form-group"><textarea rows="4" placeholder="Tell me about your project..."></textarea></div>
+          <button type="submit" class="btn-primary">Send message →</button>
+        </form>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer>
+  <p>© 2026 KaosKanvas — Frontend that means business</p>
+</footer>
+
+<!-- Floating quote button -->
+<div class="floating-quote" id="floatingQuoteBtn">
+  <i class="fas fa-comment-dots"></i> Quick Quote
+</div>
+
+<!-- Modal for quote -->
+<div id="quoteModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h3>Request a custom quote</h3>
+    <form id="quickQuoteForm">
+      <div class="form-group"><input type="text" placeholder="Full name" required></div>
+      <div class="form-group"><input type="email" placeholder="Email" required></div>
+      <div class="form-group"><input type="text" placeholder="Project type (e.g. e-commerce, portfolio)"></div>
+      <button class="btn-primary" style="width:100%">Send request</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  // custom cursor movement
+  const cursor = document.getElementById('cursor');
+  document.addEventListener('mousemove', (e) => {
+    cursor.style.left = e.clientX - 6 + 'px';
+    cursor.style.top = e.clientY - 6 + 'px';
+  });
+
+  // animated counters
+  const projectsSpan = document.getElementById('projectsCount');
+  const clientsSpan = document.getElementById('clientsCount');
+  let projectsCount = 0, clientsCount = 0;
+  const targetProjects = 84, targetClients = 62;
+  const counterInterval = setInterval(() => {
+    if (projectsCount < targetProjects) projectsCount += Math.ceil(targetProjects/50);
+    if (clientsCount < targetClients) clientsCount += Math.ceil(targetClients/50);
+    projectsSpan.innerText = projectsCount + '+';
+    clientsSpan.innerText = clientsCount + '+';
+    if (projectsCount >= targetProjects && clientsCount >= targetClients) clearInterval(counterInterval);
+  }, 40);
+
+  // carousel logic
+  const track = document.getElementById('carouselTrack');
+  const slides = Array.from(track.children);
+  const nextBtn = document.getElementById('nextBtn');
+  const prevBtn = document.getElementById('prevBtn');
+  let currentIndex = 0;
+  const slideWidth = slides[0].getBoundingClientRect().width;
+  const setSlidePosition = () => {
+    slides.forEach((slide, idx) => {
+      slide.style.left = slideWidth * idx + 'px';
+    });
+  };
+  setSlidePosition();
+  const moveToSlide = (index) => {
+    track.style.transform = 'translateX(-' + (slideWidth * index) + 'px)';
+    currentIndex = index;
+  };
+  nextBtn.addEventListener('click', () => {
+    if (currentIndex === slides.length-1) moveToSlide(0);
+    else moveToSlide(currentIndex+1);
+  });
+  prevBtn.addEventListener('click', () => {
+    if (currentIndex === 0) moveToSlide(slides.length-1);
+    else moveToSlide(currentIndex-1);
+  });
+  window.addEventListener('resize', () => {
+    const newWidth = slides[0].getBoundingClientRect().width;
+    slides.forEach((slide, idx) => slide.style.left = newWidth * idx + 'px');
+    moveToSlide(currentIndex);
+  });
+
+  // scroll reveal
+  const faders = document.querySelectorAll('.fade-up');
+  const appearOptions = { threshold: 0.2, rootMargin: "0px 0px -50px 0px" };
+  const appearOnScroll = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) entry.target.classList.add('appear');
+    });
+  }, appearOptions);
+  faders.forEach(fader => appearOnScroll.observe(fader));
+
+  // modal logic
+  const modal = document.getElementById('quoteModal');
+  const openModalBtns = [document.getElementById('heroQuoteBtn'), document.getElementById('floatingQuoteBtn'), document.getElementById('quoteNavBtn')];
+  const closeModalBtn = document.querySelector('.close-modal');
+  openModalBtns.forEach(btn => {
+    if(btn) btn.addEventListener('click', () => modal.style.display = 'flex');
+  });
+  closeModalBtn.addEventListener('click', () => modal.style.display = 'none');
+  window.addEventListener('click', (e) => { if(e.target === modal) modal.style.display = 'none'; });
+
+  // form submissions (demo)
+  document.getElementById('contactForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert("Thanks! I'll reach out within 24h. (demo mode)");
+    e.target.reset();
+  });
+  document.getElementById('quickQuoteForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    alert("Quote request sent! (demo)");
+    modal.style.display = 'none';
+  });
+
+  // smooth anchor scroll
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if(target) target.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+</script>
+</body>
+</html>
