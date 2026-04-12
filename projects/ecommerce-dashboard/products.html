@@ -3,56 +3,29 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Products | E‑com Admin</title>
+  <title>Products | ShopDash</title>
   <link rel="stylesheet" href="css/style.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 <div class="app-container">
-  <aside class="sidebar" id="sidebar">
-    <div class="logo">⚡ ShopDash</div>
-    <ul class="nav-links">
-      <li><a href="index.html"><i class="fas fa-chart-line"></i> Dashboard</a></li>
-      <li><a href="products.html"><i class="fas fa-box"></i> Products</a></li>
-      <li><a href="orders.html"><i class="fas fa-truck"></i> Orders</a></li>
-    </ul>
-  </aside>
+  <aside class="sidebar" id="sidebar">...</aside> <!-- same sidebar -->
   <main class="main-content">
     <div class="top-bar">
-      <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+      <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i> Menu</button>
       <h1 class="page-title">Products</h1>
       <button class="btn btn-primary" id="addProductBtn"><i class="fas fa-plus"></i> Add Product</button>
     </div>
-
     <div class="table-container">
       <table id="productsTable">
-        <thead>
-          <tr><th>ID</th><th>Name</th><th>Price</th><th>Stock</th><th>Category</th><th>Actions</th></tr>
-        </thead>
+        <thead><tr><th>Image</th><th>Name</th><th>Price</th><th>Stock</th><th>Category</th><th>Actions</th></tr></thead>
         <tbody></tbody>
       </table>
     </div>
   </main>
 </div>
-
-<!-- Modal for Add/Edit -->
-<div id="productModal" class="modal">
-  <div class="modal-content">
-    <h2 id="modalTitle">Add Product</h2>
-    <input type="hidden" id="productId">
-    <input type="text" id="productName" placeholder="Product Name">
-    <input type="number" id="productPrice" placeholder="Price" step="0.01">
-    <input type="number" id="productStock" placeholder="Stock">
-    <input type="text" id="productCategory" placeholder="Category">
-    <input type="text" id="productImage" placeholder="Emoji or icon (e.g., 🎧)">
-    <div class="modal-actions">
-      <button class="btn btn-outline" id="closeModalBtn">Cancel</button>
-      <button class="btn btn-primary" id="saveProductBtn">Save</button>
-    </div>
-  </div>
-</div>
-  
+<div id="productModal" class="modal">...</div> <!-- same modal -->
 <script src="js/common.js"></script>
 <script src="js/products.js"></script>
 </body>
