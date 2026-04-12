@@ -5,37 +5,33 @@ function renderProducts() {
   const tbody = document.querySelector('#productsTable tbody');
   tbody.innerHTML = products.map(p => `
     <tr>
-      <td>${p.id}</td>
-      <td>${p.name}</td>
+      <td style="font-size:1.8rem">${p.image || '📦'}</td>
+      <td><strong>${p.name}</strong></td>
       <td>${formatCurrency(p.price)}</td>
-      <td>${p.stock}</td>
-      <td>${p.category}</td>
+      <td style="${p.stock < 20 ? 'color:#f43f5e; font-weight:bold' : ''}">${p.stock}</td>
+      <td><span class="status-badge" style="background:#e0e7ff; color:#4f46e5">${p.category}</span></td>
       <td>
         <button class="btn btn-sm btn-outline edit-product" data-id="${p.id}"><i class="fas fa-edit"></i></button>
         <button class="btn btn-sm btn-danger delete-product" data-id="${p.id}"><i class="fas fa-trash"></i></button>
       </td>
     </tr>
   `).join('');
+  attachProductEvents();
+}
 
-  // attach events
+function attachProductEvents() {
   document.querySelectorAll('.edit-product').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-      const id = parseInt(btn.dataset.id);
-      openEditModal(id);
-    });
+    btn.addEventListener('click', () => openEditModal(parseInt(btn.dataset.id)));
   });
   document.querySelectorAll('.delete-product').forEach(btn => {
     btn.addEventListener('click', () => {
-      if (confirm('Delete this product?')) {
-        deleteProduct(parseInt(btn.dataset.id));
-      }
+      if (confirm('Delete product?')) deleteProduct(parseInt(btn.dataset.id));
     });
   });
 }
 
 function openEditModal(id) {
-  const products = getProducts();
-  const product = products.find(p => p.id === id);
+  const product = getProducts().find(p => p.id === id);
   if (product) {
     currentEditId = id;
     document.getElementById('modalTitle').innerText = 'Edit Product';
@@ -44,6 +40,7 @@ function openEditModal(id) {
     document.getElementById('productPrice').value = product.price;
     document.getElementById('productStock').value = product.stock;
     document.getElementById('productCategory').value = product.category;
+    document.getElementById('productImage').value = product.image || '';
     document.getElementById('productModal').style.display = 'flex';
   }
 }
@@ -56,6 +53,7 @@ function openAddModal() {
   document.getElementById('productPrice').value = '';
   document.getElementById('productStock').value = '';
   document.getElementById('productCategory').value = '';
+  document.getElementById('productImage').value = '';
   document.getElementById('productModal').style.display = 'flex';
 }
 
@@ -64,22 +62,16 @@ function saveProduct() {
   const price = parseFloat(document.getElementById('productPrice').value);
   const stock = parseInt(document.getElementById('productStock').value);
   const category = document.getElementById('productCategory').value.trim();
-  if (!name || isNaN(price) || isNaN(stock)) {
-    alert('Please fill all fields correctly');
-    return;
-  }
+  const image = document.getElementById('productImage').value.trim() || '📦';
+  if (!name || isNaN(price) || isNaN(stock)) return alert('Fill all fields');
   let products = getProducts();
   if (currentEditId) {
-    // update
     const index = products.findIndex(p => p.id === currentEditId);
-    if (index !== -1) {
-      products[index] = { ...products[index], name, price, stock, category };
-      saveProducts(products);
-    }
+    if (index !== -1) products[index] = { ...products[index], name, price, stock, category, image };
+    saveProducts(products);
   } else {
-    // add new
-    const newId = products.length ? Math.max(...products.map(p => p.id)) + 1 : 4;
-    products.push({ id: newId, name, price, stock, category });
+    const newId = products.length ? Math.max(...products.map(p => p.id)) + 1 : 5;
+    products.push({ id: newId, name, price, stock, category, image });
     saveProducts(products);
   }
   closeModal();
@@ -102,9 +94,4 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('addProductBtn').addEventListener('click', openAddModal);
   document.getElementById('saveProductBtn').addEventListener('click', saveProduct);
   document.getElementById('closeModalBtn').addEventListener('click', closeModal);
-  // close on outside click
-  window.addEventListener('click', (e) => {
-    const modal = document.getElementById('productModal');
-    if (e.target === modal) closeModal();
-  });
 });
