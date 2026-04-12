@@ -1,23 +1,24 @@
-function loadDashboardMetrics() {
+function loadMetrics() {
   const products = getProducts();
   const orders = getOrders();
+  const customers = getCustomers();
 
-  const totalProducts = products.length;
+  const totalRevenue = orders.reduce((sum, o) => sum + o.total, 0);
   const totalOrders = orders.length;
-  const totalRevenue = orders.reduce((sum, order) => sum + order.total, 0);
+  const totalCustomers = customers.length;
   const lowStock = products.filter(p => p.stock < 20).length;
 
   const metrics = [
-    { label: 'Total Products', value: totalProducts, icon: 'fas fa-cube' },
-    { label: 'Total Orders', value: totalOrders, icon: 'fas fa-shopping-cart' },
-    { label: 'Revenue', value: formatCurrency(totalRevenue), icon: 'fas fa-dollar-sign' },
-    { label: 'Low Stock Items', value: lowStock, icon: 'fas fa-exclamation-triangle' }
+    { label: 'Revenue', value: formatCurrency(totalRevenue), icon: 'fas fa-dollar-sign', color: '#10b981' },
+    { label: 'Orders', value: totalOrders, icon: 'fas fa-shopping-cart', color: '#4f46e5' },
+    { label: 'Customers', value: totalCustomers, icon: 'fas fa-users', color: '#f59e0b' },
+    { label: 'Low Stock', value: lowStock, icon: 'fas fa-exclamation-triangle', color: '#f43f5e' }
   ];
 
   const grid = document.getElementById('metricsGrid');
   grid.innerHTML = metrics.map(m => `
     <div class="metric-card">
-      <h3><i class="${m.icon}"></i> ${m.label}</h3>
+      <h3><i class="${m.icon}" style="color:${m.color}"></i> ${m.label}</h3>
       <div class="metric-value">${m.value}</div>
     </div>
   `).join('');
@@ -39,41 +40,45 @@ function loadRecentOrders() {
 
 function renderSalesChart() {
   const orders = getOrders();
-  // group by month (last 6 months)
-  const months = {};
+  const last6Months = [];
   const today = new Date();
   for (let i = 5; i >= 0; i--) {
     const d = new Date(today.getFullYear(), today.getMonth() - i, 1);
-    const key = d.toLocaleString('default', { month: 'short' });
-    months[key] = 0;
+    last6Months.push(d.toLocaleString('default', { month: 'short' }));
   }
-  orders.forEach(order => {
-    const date = new Date(order.date);
-    const monthKey = date.toLocaleString('default', { month: 'short' });
-    if (months[monthKey] !== undefined) months[monthKey] += order.total;
+  const monthlyData = last6Months.map(month => {
+    let total = 0;
+    orders.forEach(order => {
+      const orderMonth = new Date(order.date).toLocaleString('default', { month: 'short' });
+      if (orderMonth === month) total += order.total;
+    });
+    return total;
   });
-  const labels = Object.keys(months);
-  const data = Object.values(months);
   const ctx = document.getElementById('salesChart').getContext('2d');
   new Chart(ctx, {
-    type: 'line',
+    type: 'bar',
     data: {
-      labels: labels,
+      labels: last6Months,
       datasets: [{
         label: 'Revenue ($)',
-        data: data,
-        borderColor: '#2563eb',
-        backgroundColor: 'rgba(37,99,235,0.05)',
-        tension: 0.3,
-        fill: true
+        data: monthlyData,
+        backgroundColor: 'rgba(79, 70, 229, 0.7)',
+        borderRadius: 12,
+        borderSkipped: false,
       }]
     },
-    options: { responsive: true, maintainAspectRatio: true }
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { position: 'top' },
+        tooltip: { callbacks: { label: (ctx) => `$${ctx.raw.toFixed(2)}` } }
+      }
+    }
   });
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-  loadDashboardMetrics();
-  loadRecentOrders();
-  renderSalesChart();
-});
+document.getElementById('dateBadge').innerHTML = `<i class="fas fa-calendar"></i> ${new Date().toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}`;
+
+loadMetrics();
+loadRecentOrders();
+renderSalesChart();
