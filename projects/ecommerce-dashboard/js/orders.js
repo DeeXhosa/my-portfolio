@@ -17,27 +17,16 @@ function renderOrders() {
       </td>
     </tr>
   `).join('');
-
-  // attach status change event
-  document.querySelectorAll('.status-select').forEach(select => {
-    select.addEventListener('change', (e) => {
-      const orderId = parseInt(select.dataset.id);
-      const newStatus = select.value;
-      updateOrderStatus(orderId, newStatus);
+  document.querySelectorAll('.status-select').forEach(sel => {
+    sel.addEventListener('change', (e) => {
+      const orderId = parseInt(sel.dataset.id);
+      const newStatus = sel.value;
+      let orders = getOrders();
+      const idx = orders.findIndex(o => o.id === orderId);
+      if (idx !== -1) orders[idx].status = newStatus;
+      saveOrders(orders);
+      renderOrders();
     });
   });
 }
-
-function updateOrderStatus(orderId, newStatus) {
-  let orders = getOrders();
-  const orderIndex = orders.findIndex(o => o.id === orderId);
-  if (orderIndex !== -1) {
-    orders[orderIndex].status = newStatus;
-    saveOrders(orders);
-    renderOrders(); // re-render to update badge
-  }
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  renderOrders();
-});
+document.addEventListener('DOMContentLoaded', renderOrders);
