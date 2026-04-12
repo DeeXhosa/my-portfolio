@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Products | ShopDash</title>
+  <title>Customers | ShopDash</title>
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
 <div class="app-container">
+  <!-- Sidebar - identical to all other pages -->
   <aside class="sidebar" id="sidebar">
     <div class="logo"><i class="fas fa-bolt"></i> ShopDash</div>
     <ul class="nav-links">
@@ -19,19 +20,25 @@
       <li><a href="customers.html"><i class="fas fa-users"></i> Customers</a></li>
     </ul>
   </aside>
+
   <main class="main-content">
     <div class="top-bar">
       <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i> Menu</button>
       <h1 class="page-title">Customers</h1>
+      <div></div>
     </div>
+
     <div class="table-container">
       <table id="customersTable">
-        <thead><tr><th>ID</th><th>Name</th><th>Email</th><th>Total Spent</th><th>Orders</th><th>Joined</th></tr></thead>
+        <thead>
+          <tr><th>ID</th><th>Name</th><th>Email</th><th>Total Spent</th><th>Orders</th><th>Joined</th>
+        </thead>
         <tbody></tbody>
       </table>
     </div>
   </main>
 </div>
+
 <script src="js/common.js"></script>
 <script src="js/customers.js"></script>
 </body>
